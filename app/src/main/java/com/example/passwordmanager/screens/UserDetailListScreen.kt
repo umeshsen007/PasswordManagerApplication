@@ -1,7 +1,6 @@
-package com.example.passwordmanager
+package com.example.passwordmanager.screens
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +11,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,14 +18,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.passwordmanager.ui.theme.PasswordManagerTheme
-import com.example.passwordmanager.ui.theme.Purple40
+import com.example.passwordmanager.ModalBottomSheetView
+import com.example.passwordmanager.dto.NavArgWrapperDto2
+import com.example.passwordmanager.dto.getUserDetailDetailList
 import com.example.passwordmanager.ui.theme.Purple80
 
 @OptIn(ExperimentalMaterial3Api::class)

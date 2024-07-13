@@ -19,6 +19,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.passwordmanager.dto.NavArgWrapperDto2
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

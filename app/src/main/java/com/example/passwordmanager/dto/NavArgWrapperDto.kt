@@ -1,4 +1,4 @@
-package com.example.passwordmanager
+package com.example.passwordmanager.dto
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
