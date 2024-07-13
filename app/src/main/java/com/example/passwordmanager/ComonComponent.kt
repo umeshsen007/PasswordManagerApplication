@@ -32,7 +32,8 @@ fun ModalBottomSheetView(
     scope: CoroutineScope,
     accountNameTextField: MutableState<String>,
     passwordTextField: MutableState<String>,
-    userNameTextField: MutableState<String>
+    userNameTextField: MutableState<String>,
+    onClick:()->Unit
 ) {
     ModalBottomSheet(
         onDismissRequest = {
@@ -60,6 +61,7 @@ fun ModalBottomSheetView(
                 onClick = {
                     scope.launch { sheetState.hide() }.invokeOnCompletion {
                         if (!sheetState.isVisible) {
+                            onClick()
                             showBottomSheet.value = false
                         }
                     }
@@ -73,7 +75,7 @@ fun ModalBottomSheetView(
 }
 
 @Composable
-private fun PasswordTextField(passwordTextField: MutableState<String>) {
+fun PasswordTextField(passwordTextField: MutableState<String>) {
     OutlinedTextField(
         value = passwordTextField.value,
         onValueChange = { passwordTextField.value = it },

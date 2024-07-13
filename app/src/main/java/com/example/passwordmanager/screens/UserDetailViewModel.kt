@@ -4,14 +4,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.passwordmanager.dto.UserDetailDto
 
+// ViewModel to manage the list of accounts
 class UserDetailViewModel : ViewModel() {
-    val userDetail = MutableLiveData<List<UserDetailDto>?>()
+    val accounts = MutableLiveData<List<UserDetailDto>>(emptyList())
 
     private val list = ArrayList<UserDetailDto>()
 
-    fun getUserDetailDetailList(): ArrayList<UserDetailDto> {
-        list.clear()
-        list.add(UserDetailDto("","",""))
-        return list
+    fun addAccount(userDetailDto: UserDetailDto) {
+        val updatedList = accounts.value.orEmpty().toMutableList().apply {
+            add(userDetailDto)
+        }
+        accounts.postValue(updatedList)
     }
 }
