@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -70,4 +71,7 @@ dependencies {
     // navigation
     implementation(libs.androidx.navigation.compose)
     implementation(libs.accompanist.systemuicontroller)
+
+    implementation ("com.google.code.gson:gson:2.8.5")
+
 }
