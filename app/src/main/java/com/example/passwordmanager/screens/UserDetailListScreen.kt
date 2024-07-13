@@ -55,18 +55,14 @@ fun UserDetailListScreen(
 
     //flag
     val showBottomSheet = remember { mutableStateOf(false) }
-
-    val wrapper =
-        navController.previousBackStackEntry?.savedStateHandle?.get<NavArgWrapperDto2>("navArgWrapperDto")
+    
 
     BackHandler {
         navController.navigateUp()
     }
 
     LaunchedEffect(key1 = true) {
-        if (wrapper?.navArgVo != null) {
 
-        }
     }
 
     Scaffold(
