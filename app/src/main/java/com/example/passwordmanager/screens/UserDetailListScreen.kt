@@ -2,6 +2,7 @@ package com.example.passwordmanager.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.passwordmanager.ModalBottomSheetView
-import com.example.passwordmanager.dto.NavArgWrapperDto2
 import com.example.passwordmanager.dto.UserDetailDto
 import com.example.passwordmanager.ui.theme.Purple80
 
@@ -50,12 +50,13 @@ fun UserDetailListScreen(
     val accountNameTextField = remember { mutableStateOf("") }
     val userNameTextField = remember { mutableStateOf("") }
     val passwordTextField = remember { mutableStateOf("") }
+    val selectedAccount = remember { mutableStateOf<UserDetailDto?>(null) }
 
     //permissions
 
     //flag
     val showBottomSheet = remember { mutableStateOf(false) }
-    
+
 
     BackHandler {
         navController.navigateUp()
@@ -79,6 +80,7 @@ fun UserDetailListScreen(
                     accountNameTextField.value = ""
                     userNameTextField.value = ""
                     passwordTextField.value = ""
+                    selectedAccount.value = null
                     showBottomSheet.value = true
                 },
             ) {
@@ -103,17 +105,21 @@ fun UserDetailListScreen(
                         scope,
                         accountNameTextField,
                         passwordTextField,
-                        userNameTextField
-                    ) {
-                        // Add the new account to the ViewModel's list
-                        userDetailVm.addAccount(
-                            UserDetailDto(
-                                accountName = accountNameTextField.value,
-                                username = userNameTextField.value,
-                                password = passwordTextField.value
+                        userNameTextField,
+                        selectedAccount, onClick = {
+                            // Add the new account to the ViewModel's list
+                            userDetailVm.addAccount(
+                                UserDetailDto(
+                                    accountName = accountNameTextField.value,
+                                    username = userNameTextField.value,
+                                    password = passwordTextField.value
+                                )
                             )
-                        )
-                    }
+                        }, onDelete = {
+                            userDetailVm.deleteAccount(it)
+                            showBottomSheet.value = false
+                        }
+                    )
                 }
 
                 // Display the list of accounts
@@ -122,6 +128,13 @@ fun UserDetailListScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(6.dp)
+                            .clickable {
+                                accountNameTextField.value = account.accountName
+                                userNameTextField.value = account.username
+                                passwordTextField.value = account.password
+                                selectedAccount.value = account
+                                showBottomSheet.value = true
+                            }
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -135,4 +148,3 @@ fun UserDetailListScreen(
             }
         })
 }
-

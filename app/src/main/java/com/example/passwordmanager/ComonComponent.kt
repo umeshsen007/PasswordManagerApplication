@@ -20,6 +20,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.passwordmanager.dto.NavArgWrapperDto2
+import com.example.passwordmanager.dto.UserDetailDto
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -33,7 +34,9 @@ fun ModalBottomSheetView(
     accountNameTextField: MutableState<String>,
     passwordTextField: MutableState<String>,
     userNameTextField: MutableState<String>,
-    onClick:()->Unit
+    selectedAccount: MutableState<UserDetailDto?>,
+    onClick: () -> Unit,
+    onDelete: (UserDetailDto) -> Unit,
 ) {
     ModalBottomSheet(
         onDismissRequest = {
@@ -57,18 +60,28 @@ fun ModalBottomSheetView(
             PasswordTextField(passwordTextField)
 
             // Sheet content
-            Button(
-                onClick = {
-                    scope.launch { sheetState.hide() }.invokeOnCompletion {
-                        if (!sheetState.isVisible) {
-                            onClick()
-                            showBottomSheet.value = false
+            if (selectedAccount.value != null) {
+                Button(
+                    onClick = {
+                        selectedAccount.value?.let {
+                            onDelete(it)
                         }
-                    }
-                },
-                modifier = Modifier.padding(top = 12.dp)
-            ) {
-                Text("Add New Account")
+                        showBottomSheet.value = false
+                    },
+                    modifier = Modifier.padding(top = 12.dp)
+                ) {
+                    Text("Delete")
+                }
+            } else {
+                Button(
+                    onClick = {
+                        onClick()
+                        showBottomSheet.value = false
+                    },
+                    modifier = Modifier.padding(top = 12.dp)
+                ) {
+                    Text("Add New Account")
+                }
             }
         }
     }
@@ -100,6 +113,8 @@ fun SimpleOutlinedTextFieldSample(text: String, textFieldState: MutableState<Str
         value = textFieldState.value,
         onValueChange = { textFieldState.value = it },
         label = { Text(text) },
-        modifier = Modifier.fillMaxWidth().padding(4.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(4.dp)
     )
 }
