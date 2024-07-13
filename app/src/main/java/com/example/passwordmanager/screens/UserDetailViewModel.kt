@@ -6,17 +6,17 @@ import com.example.passwordmanager.dto.UserDetailDto
 
 // ViewModel to manage the list of accounts
 class UserDetailViewModel : ViewModel() {
-    val accounts = MutableLiveData<List<UserDetailDto>>(emptyList())
+    val userDetailList = MutableLiveData<List<UserDetailDto>>(null)
 
-    private val accountList = mutableListOf<UserDetailDto>()
+    private val accountsList = mutableListOf<UserDetailDto>()
 
     fun addAccount(userDetailDto: UserDetailDto) {
-        accountList.add(userDetailDto)
-        accounts.value = accountList.toList()  // Update LiveData with new list
+        accountsList.add(userDetailDto)
+        userDetailList.value = accountsList.toList()  // Update LiveData with new list
     }
 
     fun deleteAccount(userDetailDto: UserDetailDto) {
-        accountList.remove(userDetailDto)
-        accounts.value = accountList.toList()  // Update LiveData with new list
+        accountsList.remove(userDetailDto)
+        userDetailList.value = accountsList.toList()  // Update LiveData with new list
     }
 }

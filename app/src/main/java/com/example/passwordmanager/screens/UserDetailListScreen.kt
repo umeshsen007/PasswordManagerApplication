@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -43,6 +44,7 @@ fun UserDetailListScreen(
     val topBgColor = Purple80
 
     // view model objects
+    val accounts = userDetailVm.userDetailList.observeAsState()
 
     // text fields objects
     val sheetState = rememberModalBottomSheetState()
@@ -51,7 +53,6 @@ fun UserDetailListScreen(
     val userNameTextField = remember { mutableStateOf("") }
     val passwordTextField = remember { mutableStateOf("") }
     val selectedAccount = remember { mutableStateOf<UserDetailDto?>(null) }
-
     //permissions
 
     //flag
@@ -123,7 +124,7 @@ fun UserDetailListScreen(
                 }
 
                 // Display the list of accounts
-                userDetailVm.accounts.value?.forEach { account ->
+                accounts.value?.forEach { account ->
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()

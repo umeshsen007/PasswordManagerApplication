@@ -67,6 +67,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation ("androidx.compose.runtime:runtime-livedata:1.0.5")  // Replace with the latest version
 
     // navigation
     implementation(libs.androidx.navigation.compose)
