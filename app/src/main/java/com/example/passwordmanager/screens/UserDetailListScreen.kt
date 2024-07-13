@@ -18,19 +18,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.passwordmanager.ModalBottomSheetView
 import com.example.passwordmanager.dto.NavArgWrapperDto2
-import com.example.passwordmanager.dto.getUserDetailDetailList
 import com.example.passwordmanager.ui.theme.Purple80
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserDetailListScreen(navController: NavController) {
+fun UserDetailListScreen(navController: NavController,userDetailVm: UserDetailViewModel = viewModel()) {
     val topBgColor = Purple80
 
     // view model objects
-    val filterStudentsDetail = getUserDetailDetailList()
 
     // text fields objects
     val sheetState = rememberModalBottomSheetState()
@@ -51,7 +50,6 @@ fun UserDetailListScreen(navController: NavController) {
     }
 
     LaunchedEffect(key1 = true) {
-        getUserDetailDetailList()
         if (wrapper?.navArgVo != null) {
 
         }
