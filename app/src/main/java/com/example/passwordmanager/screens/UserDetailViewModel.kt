@@ -20,12 +20,6 @@ class UserDetailViewModel : ViewModel() {
         getAllUserDetails()
     }
 
-//    fun addAccount(userDetailDto: UserDetailDto) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            userDetailDao.insert(userDetailDto)
-//            getAllUserDetails()
-//        }
-//    }
     fun addAccount(userDetailDto: UserDetailDto) {
         viewModelScope.launch(Dispatchers.IO) {
             val encryptedPassword = EncryptionUtil.encrypt(userDetailDto.password)
