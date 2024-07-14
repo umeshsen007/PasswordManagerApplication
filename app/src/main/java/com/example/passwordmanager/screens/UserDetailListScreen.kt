@@ -1,6 +1,8 @@
 package com.example.passwordmanager.screens
 
+import android.os.Build
 import androidx.activity.compose.BackHandler
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -46,6 +48,7 @@ import com.example.passwordmanager.ModalBottomSheetView
 import com.example.passwordmanager.dto.UserDetailDto
 import com.example.passwordmanager.ui.theme.Purple80
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserDetailListScreen(
