@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,7 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -54,8 +52,6 @@ fun UserDetailListScreen(
     navController: NavController,
     userDetailVm: UserDetailViewModel = viewModel()
 ) {
-    val topBgColor = Purple80
-
     // view model objects
     val accounts = userDetailVm.userDetailList.observeAsState()
 
@@ -66,6 +62,7 @@ fun UserDetailListScreen(
     val userNameTextField = remember { mutableStateOf("") }
     val passwordTextField = remember { mutableStateOf("") }
     val selectedAccount = remember { mutableStateOf<UserDetailDto?>(null) }
+
     //permissions
 
     //flag
@@ -76,18 +73,8 @@ fun UserDetailListScreen(
         navController.navigateUp()
     }
 
-    LaunchedEffect(key1 = true) {
-
-    }
-
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = {
-
-        },
-        snackbarHost = {
-
-        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
@@ -147,8 +134,9 @@ fun UserDetailListScreen(
                         }
                     )
                 }
+
                 Text(
-                    "Password Manager",
+                    text = "Password Manager",
                     style = MaterialTheme.typography.headlineMedium,
                     modifier = Modifier.padding(vertical = 6.dp, horizontal = 12.dp)
                 )
@@ -195,11 +183,7 @@ fun UserDetailListScreen(
                                         )
 
                                         Text(
-                                            text = if (it.password != null) {
-                                                "*******"
-                                            } else {
-                                                return@Row
-                                            },
+                                            text = "*******",
                                             modifier = Modifier
                                                 .weight(0.4f)
                                                 .align(Alignment.CenterVertically)
