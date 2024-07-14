@@ -6,16 +6,24 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Card
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -27,7 +35,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -134,6 +147,13 @@ fun UserDetailListScreen(
                         }
                     )
                 }
+                Text(
+                    "Password Manager",
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier.padding(vertical = 6.dp, horizontal = 12.dp)
+                )
+
+                Divider()
 
                 accounts.value?.let { accountList ->
                     if (accountList.isEmpty()) {
@@ -144,9 +164,11 @@ fun UserDetailListScreen(
                                 Card(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(6.dp)
+                                        .width(355.dp)
+                                        .height(66.19.dp)
+                                        .padding(vertical = 6.dp, horizontal = 12.dp)
+                                        .clip(RoundedCornerShape(10.dp))
                                         .clickable {
-
                                             accountNameTextField.value = it.accountName
                                             userNameTextField.value = it.username
                                             passwordTextField.value = it.password
@@ -155,11 +177,49 @@ fun UserDetailListScreen(
                                         }
                                 ) {
                                     Row(
+                                        modifier = Modifier.fillMaxWidth(),
                                         verticalAlignment = Alignment.CenterVertically,
                                         horizontalArrangement = Arrangement.Center
                                     ) {
-                                        Text(text = it.accountName, modifier = Modifier.padding(12.dp))
-                                        Text(text = it.password, modifier = Modifier.padding(12.dp))
+                                        Text(
+                                            text = it.accountName,
+                                            modifier = Modifier
+                                                .weight(0.4f)
+                                                .align(Alignment.CenterVertically)
+                                                .padding(vertical = 6.dp, horizontal = 12.dp),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
+                                            style = MaterialTheme.typography.bodyLarge,
+                                            fontWeight = FontWeight.Bold,
+                                            textAlign = TextAlign.Start
+                                        )
+
+                                        Text(
+                                            text = if (it.password != null) {
+                                                "*****"
+                                            } else {
+                                                return@Row
+                                            },
+                                            modifier = Modifier
+                                                .weight(0.4f)
+                                                .align(Alignment.CenterVertically)
+                                                .padding(vertical = 6.dp, horizontal = 12.dp),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
+                                            style = MaterialTheme.typography.bodyLarge,
+                                            fontWeight = FontWeight.Bold,
+                                            textAlign = TextAlign.Start,
+                                            color = Color.LightGray
+                                        )
+
+                                        Icon(
+                                            imageVector = Icons.Default.KeyboardArrowRight,
+                                            contentDescription = "Edit",
+                                            modifier = Modifier
+                                                .weight(0.2f)
+                                                .size(50.dp)
+                                                .padding(vertical = 6.dp, horizontal = 12.dp),
+                                        )
                                     }
                                 }
                             }
