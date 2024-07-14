@@ -1,52 +1,37 @@
 package com.example.passwordmanager.dto
 
-import android.security.keystore.KeyGenParameterSpec
-import android.security.keystore.KeyProperties
-import java.nio.charset.Charset
-import java.security.KeyStore
+import android.os.Build
+import androidx.annotation.RequiresApi
+import java.security.Key
+import java.util.Base64
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
-import javax.crypto.SecretKey
-import javax.crypto.spec.GCMParameterSpec
 
 object EncryptionUtil {
-    private const val KEY_ALIAS = "password_key"
-    private const val ANDROID_KEY_STORE = "AndroidKeyStore"
-    private const val TRANSFORMATION = "AES/GCM/NoPadding"
 
-    private fun getKey(): SecretKey {
-        val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE).apply { load(null) }
-        return if (keyStore.containsAlias(KEY_ALIAS)) {
-            (keyStore.getEntry(KEY_ALIAS, null) as KeyStore.SecretKeyEntry).secretKey
-        } else {
-            val keyGenParameterSpec = KeyGenParameterSpec.Builder(
-                KEY_ALIAS,
-                KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
-            ).setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-                .build()
+    private const val ALGORITHM = "AES"
+    private const val TRANSFORMATION = "AES"
 
-            KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEY_STORE).apply {
-                init(keyGenParameterSpec)
-            }.generateKey()
-        }
+    fun generateKey(): Key {
+        val keyGen = KeyGenerator.getInstance(ALGORITHM)
+        keyGen.init(256) // For AES-256
+        return keyGen.generateKey()
     }
 
-    fun encrypt(data: String): ByteArray {
-        val cipher = Cipher.getInstance(TRANSFORMATION).apply {
-            init(Cipher.ENCRYPT_MODE, getKey())
-        }
-        val iv = cipher.iv
-        val encryptedData = cipher.doFinal(data.toByteArray(Charset.forName("UTF-8")))
-        return iv + encryptedData
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun encrypt(data: String, secretKey: Key): String {
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey)
+        val encryptedBytes = cipher.doFinal(data.toByteArray())
+        return Base64.getEncoder().encodeToString(encryptedBytes)
     }
 
-    fun decrypt(encryptedData: ByteArray): String {
-        val iv = encryptedData.copyOfRange(0, 12)
-        val data = encryptedData.copyOfRange(12, encryptedData.size)
-        val cipher = Cipher.getInstance(TRANSFORMATION).apply {
-            init(Cipher.DECRYPT_MODE, getKey(), GCMParameterSpec(128, iv))
-        }
-        return String(cipher.doFinal(data), Charset.forName("UTF-8"))
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun decrypt(encryptedData: String, secretKey: Key): String {
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        cipher.init(Cipher.DECRYPT_MODE, secretKey)
+        val decodedBytes = Base64.getDecoder().decode(encryptedData)
+        val decryptedBytes = cipher.doFinal(decodedBytes)
+        return String(decryptedBytes)
     }
 }
