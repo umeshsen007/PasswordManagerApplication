@@ -139,7 +139,7 @@ fun PasswordTextField(passwordTextField: MutableState<String>) {
             val image = if (passwordVisible.value) {
                 painterResource(id = R.drawable.visibility_24dp_5f6368_fill0_wght400_grad0_opsz24)
             } else {
-                painterResource(id = R.drawable.visibility_24dp_5f6368_fill0_wght400_grad0_opsz24)
+                painterResource(id = R.drawable.visibility_off_24dp_5f6368_fill0_wght400_grad0_opsz24)
             }
 
             IconButton(onClick = { passwordVisible.value = !passwordVisible.value }) {
