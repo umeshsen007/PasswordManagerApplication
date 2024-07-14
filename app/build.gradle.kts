@@ -85,5 +85,7 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
+    implementation ("androidx.security:security-crypto:1.1.0-alpha03")
+
 
 }

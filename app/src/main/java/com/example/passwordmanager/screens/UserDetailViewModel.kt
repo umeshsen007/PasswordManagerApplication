@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.passwordmanager.MainActivity
+import com.example.passwordmanager.dto.EncryptionUtil
 import com.example.passwordmanager.dto.UserDetailDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,9 +20,16 @@ class UserDetailViewModel : ViewModel() {
         getAllUserDetails()
     }
 
+//    fun addAccount(userDetailDto: UserDetailDto) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            userDetailDao.insert(userDetailDto)
+//            getAllUserDetails()
+//        }
+//    }
     fun addAccount(userDetailDto: UserDetailDto) {
         viewModelScope.launch(Dispatchers.IO) {
-            userDetailDao.insert(userDetailDto)
+            val encryptedPassword = EncryptionUtil.encrypt(userDetailDto.password)
+            userDetailDao.insert(userDetailDto.copy(password = encryptedPassword.toString(Charsets.ISO_8859_1)))
             getAllUserDetails()
         }
     }
@@ -34,10 +42,12 @@ class UserDetailViewModel : ViewModel() {
     }
     fun updateAccount(userDetailDto: UserDetailDto) {
         viewModelScope.launch(Dispatchers.IO) {
-            userDetailDao.update(userDetailDto)
+            val encryptedPassword = EncryptionUtil.encrypt(userDetailDto.password)
+            userDetailDao.update(userDetailDto.copy(password = encryptedPassword.toString(Charsets.ISO_8859_1)))
             getAllUserDetails()
         }
     }
+
     private fun getAllUserDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             val userDetails = userDetailDao.getAllUserDetails()
