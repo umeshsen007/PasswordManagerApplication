@@ -123,7 +123,7 @@ fun ModalBottomSheetView(
 
 @Composable
 fun PasswordTextField(passwordTextField: MutableState<String>) {
-    var passwordVisible = remember { mutableStateOf(false) }
+    val passwordVisible = remember { mutableStateOf(false) }
 
     OutlinedTextField(
         value = passwordTextField.value,

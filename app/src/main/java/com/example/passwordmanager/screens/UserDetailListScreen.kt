@@ -191,12 +191,12 @@ fun UserDetailListScreen(
                                             overflow = TextOverflow.Ellipsis,
                                             style = MaterialTheme.typography.bodyLarge,
                                             fontWeight = FontWeight.Bold,
-                                            textAlign = TextAlign.Start
+                                            textAlign = TextAlign.Start,
                                         )
 
                                         Text(
                                             text = if (it.password != null) {
-                                                "*****"
+                                                "*******"
                                             } else {
                                                 return@Row
                                             },
@@ -209,7 +209,7 @@ fun UserDetailListScreen(
                                             style = MaterialTheme.typography.bodyLarge,
                                             fontWeight = FontWeight.Bold,
                                             textAlign = TextAlign.Start,
-                                            color = Color.LightGray
+                                            color = Color.DarkGray
                                         )
 
                                         Icon(
