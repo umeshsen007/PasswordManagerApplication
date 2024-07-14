@@ -108,14 +108,26 @@ fun UserDetailListScreen(
                         passwordTextField,
                         userNameTextField,
                         selectedAccount, onClick = {
-                            // Add the new account to the ViewModel's list
-                            userDetailVm.addAccount(
-                                UserDetailDto(
-                                    accountName = accountNameTextField.value,
-                                    username = userNameTextField.value,
-                                    password = passwordTextField.value
+                            if (selectedAccount.value == null) {
+                                // Add the new account to the ViewModel's list
+                                userDetailVm.addAccount(
+                                    UserDetailDto(
+                                        accountName = accountNameTextField.value,
+                                        username = userNameTextField.value,
+                                        password = passwordTextField.value
+                                    )
                                 )
-                            )
+                            } else {
+                                // Update the existing account
+                                userDetailVm.updateAccount(
+                                    UserDetailDto(
+                                        id = selectedAccount.value!!.id,
+                                        accountName = accountNameTextField.value,
+                                        username = userNameTextField.value,
+                                        password = passwordTextField.value
+                                    )
+                                )
+                            }
                         }, onDelete = {
                             userDetailVm.deleteAccount(it)
                             showBottomSheet.value = false
@@ -123,26 +135,34 @@ fun UserDetailListScreen(
                     )
                 }
 
-                // Display the list of accounts
-                accounts.value?.forEach { account ->
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(6.dp)
-                            .clickable {
-                                accountNameTextField.value = account.accountName
-                                userNameTextField.value = account.username
-                                passwordTextField.value = account.password
-                                selectedAccount.value = account
-                                showBottomSheet.value = true
+                accounts.value?.let { accountList ->
+                    if (accountList.isEmpty()) {
+                        Text("No accounts available", modifier = Modifier.padding(16.dp))
+                    } else {
+                        accountList.forEach { account ->
+                            account?.let {
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(6.dp)
+                                        .clickable {
+
+                                            accountNameTextField.value = it.accountName
+                                            userNameTextField.value = it.username
+                                            passwordTextField.value = it.password
+                                            selectedAccount.value = it
+                                            showBottomSheet.value = true
+                                        }
+                                ) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Center
+                                    ) {
+                                        Text(text = it.accountName, modifier = Modifier.padding(12.dp))
+                                        Text(text = it.password, modifier = Modifier.padding(12.dp))
+                                    }
+                                }
                             }
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Text(text = account.accountName, modifier = Modifier.padding(12.dp))
-                            Text(text = account.password, modifier = Modifier.padding(12.dp))
                         }
                     }
                 }

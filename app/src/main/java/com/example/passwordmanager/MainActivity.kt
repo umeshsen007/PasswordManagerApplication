@@ -11,12 +11,26 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
+import androidx.room.Room
+import com.example.passwordmanager.dto.AppDatabase
 import com.example.passwordmanager.ui.theme.PasswordManagerTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+    companion object{
+        lateinit var database: AppDatabase
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        database = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, "app_database"
+        ).build()
+
         setContent {
             PasswordManagerTheme {
                 // A surface container using the 'background' color from the theme

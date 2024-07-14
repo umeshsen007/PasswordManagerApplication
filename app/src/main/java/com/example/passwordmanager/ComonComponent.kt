@@ -2,6 +2,7 @@ package com.example.passwordmanager
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
@@ -59,20 +60,27 @@ fun ModalBottomSheetView(
 
             PasswordTextField(passwordTextField)
 
-            // Sheet content
-            if (selectedAccount.value != null) {
-                Button(
-                    onClick = {
-                        selectedAccount.value?.let {
-                            onDelete(it)
-                        }
-                        showBottomSheet.value = false
-                    },
-                    modifier = Modifier.padding(top = 12.dp)
-                ) {
-                    Text("Delete")
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                if (selectedAccount.value != null) {
+                    Button(
+                        onClick = {
+                            selectedAccount.value?.let {
+                                onDelete(it)
+                            }
+                            showBottomSheet.value = false
+                        },
+                        modifier = Modifier.padding(top = 12.dp)
+                    ) {
+                        Text("Delete")
+                    }
                 }
-            } else {
+
                 Button(
                     onClick = {
                         onClick()
@@ -80,7 +88,11 @@ fun ModalBottomSheetView(
                     },
                     modifier = Modifier.padding(top = 12.dp)
                 ) {
-                    Text("Add New Account")
+                    if (selectedAccount.value != null) {
+                        Text("Update")
+                    } else {
+                        Text("Add New Account")
+                    }
                 }
             }
         }

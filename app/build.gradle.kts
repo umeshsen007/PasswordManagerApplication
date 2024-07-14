@@ -79,13 +79,11 @@ dependencies {
     implementation ("androidx.compose.runtime:runtime-livedata:1.0.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0-alpha03")
 
-    val room_version = "2.3.0"
-    implementation ("androidx.room:room-runtime:$room_version")
-    kapt ("androidx.room:room-compiler:$room_version")
+    implementation (libs.androidx.room.runtime)
+    kapt (libs.androidx.room.compiler)
+    implementation (libs.androidx.room.ktx)
 
-    implementation ("androidx.room:room-ktx:$room_version")
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 
 }
