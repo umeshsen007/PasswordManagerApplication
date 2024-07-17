@@ -6,6 +6,8 @@ import java.security.Key
 import java.util.Base64
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
+import javax.crypto.SecretKey
+import javax.crypto.spec.SecretKeySpec
 
 object EncryptionUtil {
 
@@ -34,4 +36,16 @@ object EncryptionUtil {
         val decryptedBytes = cipher.doFinal(decodedBytes)
         return String(decryptedBytes)
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun encodeKey(key: Key): String {
+        return Base64.getEncoder().encodeToString(key.encoded)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun decodeKey(encodedKey: String): SecretKey {
+        val decodedKey = Base64.getDecoder().decode(encodedKey)
+        return SecretKeySpec(decodedKey, 0, decodedKey.size, "AES")
+    }
+
 }
